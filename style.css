@@ -72,16 +72,29 @@
 }
 
 .function {
-  background: #fd9504;
+  background-color: #fd9504;
   color: white;
+  transition: background-color 0.5s ease;
+}
+.function:hover {
+  background-color: #e58704;
 }
 
 .number {
-  background: #333333;
+  background-color: #333333;
   color: white;
+  transition: background-color 0.5s ease;
+}
+.number:hover {
+  background-color: #474747;
 }
 
 .del {
-  background: #a5a5a5;
+  background-color: #a5a5a5;
   color: #333333;
+  transition: background-color 0.5s ease;
+}
+
+.del:hover {
+  background-color: #949494;
 }

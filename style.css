@@ -53,8 +53,35 @@
   grid-column-gap: 20px;
 }
 
+.row input {
+  border: none;
+  cursor: pointer;
+  font-size: 40px;
+  border-radius: 9px;
+}
+
 .calculator__row-1 {
   display: grid;
   grid-template-rows: 90px 90px 90px 90px;
   grid-template-columns: 200px 90px 90px;
+}
+
+.calculator__row-5 {
+  display: grid;
+  grid-template-columns: 200px 90px 90px;
+}
+
+.function {
+  background: #fd9504;
+  color: white;
+}
+
+.number {
+  background: #333333;
+  color: white;
+}
+
+.del {
+  background: #a5a5a5;
+  color: #333333;
 }

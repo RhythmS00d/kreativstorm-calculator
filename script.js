@@ -6,3 +6,7 @@ const operations = {
   divide: (num1, num2) =>
     num2 !== 0 ? num1 / num2 : 'Error: Cannot divide by zero!',
 };
+
+function operate() {
+    
+}

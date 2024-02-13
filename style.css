@@ -53,7 +53,7 @@
   grid-column-gap: 20px;
 }
 
-.row input {
+button {
   border: none;
   cursor: pointer;
   font-size: 40px;

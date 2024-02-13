@@ -18,49 +18,58 @@ const userInputStore = {
     operator: ""
 }
 let userInput = "";
+
+function displayUpdate(value){
+    document.querySelector(".calculator__display").value = value
+}
+
 document.body.addEventListener("click", event => {
     if (event.target.nodeName == "BUTTON") {
         let value = event.target.textContent
         if (!isNaN(+value)) {
-            userInput += value
+            if(userInput === "0"){
+                userInput = value
+            } else {
+                userInput += value
+            }
         }
         if (value === ".") {
             if (userInput.indexOf(".") > -1) return
             if (!userInput) userInput = "0"
             userInput += value
-            // return
         }
         if (operators.includes(value)) {
             if (userInputStore.operator) {
-                let preResult = operate(userInputStore.operator, userInputStore.number, userInput)
-                // document.querySelector(".display").textContent = preResult
+                let preResult = operate(userInputStore.number, userInput, userInputStore.operator)
+                displayUpdate(preResult)
                 userInputStore.number = preResult
-                userInputStore.operator = value
+                userInputStore.operator = event.target.id
             } else {
                 userInputStore.number = userInput
-                userInputStore.operator = value
-                // document.querySelector(".display").textContent = ""
+                userInputStore.operator = event.target.id
+                displayUpdate("")
             }
             userInput = ""
-            // return
         }
         if (value === "=") {
-            let result = operate(userInputStore.operator, userInputStore.number, userInput)
-            // document.querySelector(".display").textContent = result
-            // return
+            let result = operate(userInputStore.number, userInput, userInputStore.operator)
+            displayUpdate(result)
+            return
         }
         if (event.target.id === "clear") {
             userInput = ""
             userInputStore.number = ""
             userInputStore.operator = ""
-            // document.querySelector(".display").textContent = ""
-            // return
+            displayUpdate("0")
+            return
         }
-        if (event.target.id === "backspace") {
-            if (userInput.length > 0) {
-                userInput.slice(0, -1);
+        if (event.target.id === "delete") {
+            if (userInput.length > 1) {
+                userInput = userInput.slice(0, -1);
+            } else {
+                userInput = "0"
             }
         }
-        console.log(userInput)
+        displayUpdate(userInput)
     }
 });

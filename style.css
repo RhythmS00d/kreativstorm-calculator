@@ -24,12 +24,12 @@
   grid-row-gap: 20px;
 }
 
-.calculator__display {
+.calculator__display-box {
   width: 420px;
   height: 100%;
 }
 
-.calculator__display input {
+.calculator__display-box input {
   width: 100%;
   height: 100%;
   cursor: text;
@@ -53,11 +53,18 @@
   grid-column-gap: 20px;
 }
 
-.row input {
+li {
+  text-decoration: none;
+  list-style: none;
+}
+
+button {
   border: none;
   cursor: pointer;
   font-size: 40px;
   border-radius: 9px;
+  width: 100%;
+  height: 100%;
 }
 
 .calculator__row-1 {

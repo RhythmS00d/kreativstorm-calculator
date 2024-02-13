@@ -7,6 +7,6 @@ const operations = {
     num2 !== 0 ? num1 / num2 : 'Error: Cannot divide by zero!',
 };
 
-function operate() {
-    
+function operate(num1, num2, operator) {
+    return +operations[operator](num1, num2).toFixed(2)
 }

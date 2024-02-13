@@ -53,11 +53,18 @@
   grid-column-gap: 20px;
 }
 
+li {
+  text-decoration: none;
+  list-style: none;
+}
+
 button {
   border: none;
   cursor: pointer;
   font-size: 40px;
   border-radius: 9px;
+  width: 100%;
+  height: 100%;
 }
 
 .calculator__row-1 {

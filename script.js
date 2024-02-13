@@ -8,5 +8,6 @@ const operations = {
 };
 
 function operate(num1, num2, operator) {
-    return +operations[operator](num1, num2).toFixed(2)
+    const decimals = Math.max(num1.toString().length, num2.toString().length);
+    return +operations[operator](num1, num2).toFixed(decimals)
 }

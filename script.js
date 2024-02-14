@@ -92,8 +92,7 @@ function logicHandler(value) {
     else if (VALUES.operatorSelected && VALUES.secondVal !== null)
       VALUES.secondVal = Math.floor(VALUES.secondVal / 10);
   }
-
-  console.log(VALUES);
+  
   updateDisplay();
 }
 
@@ -107,7 +106,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function addToDisplay(value) {
     display.value += value;
   }
-
+  
   function handleKeyPress(event) {
     const key = event.key;
 
@@ -117,8 +116,15 @@ document.addEventListener("DOMContentLoaded", function () {
       evaluateExpression();
     } else if (key === "Escape") {
       clearDisplay();
+    } else if (key == "Backspace") {
+            removeLastCharacter();
+      }
+
+    function removeLastCharacter() {
+        const display = document.getElementById("display");
+        display.value = display.value.slice(0, -1);
     }
-  }
+
 
   function evaluateExpression() {
     try {

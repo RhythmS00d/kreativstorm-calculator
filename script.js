@@ -95,6 +95,8 @@ document.addEventListener("DOMContentLoaded", function () {
             evaluateExpression();
         } else if (key === "Escape") {
             clearDisplay();
+        } else if (key == "Backspace") {
+            removeLastCharacter();
         }
     }
 
@@ -105,7 +107,12 @@ document.addEventListener("DOMContentLoaded", function () {
             display.value = "Error";
         }
     }
-    
+
+    function removeLastCharacter() {
+        const display = document.getElementById("display");
+        display.value = display.value.slice(0, -1);
+    }
+
     function clearDisplay() {
         display.value = "0";
     }

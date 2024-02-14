@@ -8,8 +8,8 @@ const operations = {
 };
 
 function operate(num1, num2, operator) {
-    const decimals = Math.max(num1.toString().length, num2.toString().length);
-    return +operations[operator](num1, num2).toFixed(decimals)
+    const decimals = Math.max(num1.length, num2.length);
+    return +operations['add'](+num1, +num2).toFixed(decimals)
 }
 
 const operators = ["+", "-", "*", "/"]

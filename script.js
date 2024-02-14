@@ -100,13 +100,9 @@ function logicHandler(value) {
 // Keyboard support innitial code
 document.addEventListener("DOMContentLoaded", function () {
   const display = document.getElementById("display");
-  // const buttons = document.querySelectorAll(".calculator__button-box button");
-
-  // buttons.forEach((button) => {
-  //     button.addEventListener("click", () => addToDisplay(button.innerText));
-  // });
 
   document.addEventListener("keydown", handleKeyPress);
+
 
   function addToDisplay(value) {
     display.value += value;
@@ -131,8 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
       display.value = "Error";
     }
   }
-
   function clearDisplay() {
-    display.value = "0";
+    display.value = "";
   }
 });

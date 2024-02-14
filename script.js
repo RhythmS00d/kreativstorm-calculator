@@ -15,10 +15,8 @@ const operators = {
 };
 
 let VALUES = {
-  firstVal: null,
-  secondVal: null,
+  currentInput: null,
   operator: null,
-  operatorSelected: false,
   solution: null,
 };
 const buttons = document.querySelectorAll("button");
@@ -38,80 +36,94 @@ buttons.forEach((button) =>
 
 function handleClick(value) {
   logicHandler(value);
+
+  if (value === "=") updateDisplay(VALUES.solution);
+  else if (VALUES.solution !== null && VALUES.currentInput === null)
+    updateDisplay(VALUES.solution);
+  else updateDisplay(VALUES.currentInput);
 }
 
-function updateDisplay() {
-  display.value = !VALUES.operatorSelected ? VALUES.firstVal : VALUES.secondVal;
+function updateDisplay(value) {
+  display.value = value;
+}
+
+function operatorHandler(value) {
+  if (
+    VALUES.currentInput !== null &&
+    VALUES.solution !== null &&
+    VALUES.operator !== null
+  ) {
+    operate(VALUES.solution, VALUES.currentInput, VALUES.operator);
+  }
+
+  VALUES.operator = operators[value];
+
+  if (VALUES.solution !== null && VALUES.currentInput === null) return;
+
+  if (VALUES.solution === null) {
+    [VALUES.solution, VALUES.currentInput] = [VALUES.currentInput, null];
+    return;
+  }
+
+  // operate(VALUES.solution, VALUES.currentInput, VALUES.operator);
+  [VALUES.solution, VALUES.currentInput] = [VALUES.solution, null];
 }
 
 function logicHandler(value) {
   if (/[0-9+]/.test(+value)) {
-    if (!VALUES.operatorSelected)
-      VALUES.firstVal = +(
-        (VALUES.firstVal === null ? "" : VALUES.firstVal) + value
-      );
-    else if (VALUES.operatorSelected)
-      VALUES.secondVal = +(
-        (VALUES.secondVal === null ? "" : VALUES.secondVal) + value
-      );
+    VALUES.currentInput = +(
+      (VALUES.currentInput === null ? "" : VALUES.currentInput) + value
+    );
   } else if (value === ".") {
     if (
-      VALUES.firstVal !== null &&
-      !VALUES.operatorSelected &&
-      VALUES.firstVal.toString().indexOf(".") === -1
+      VALUES.currentInput !== null &&
+      VALUES.currentInput.toString().indexOf(".") === -1
     ) {
-      VALUES.firstVal += ".";
-    } else if (
-      VALUES.firstVal !== null &&
-      VALUES.operatorSelected &&
-      VALUES.secondVal.toString().indexOf(".") === -1
-    )
-      VALUES.secondVal += ".";
+      VALUES.currentInput += ".";
+    }
   } else if (/[+-/*]/.test(value)) {
-    VALUES.operatorSelected = true;
-    VALUES.operator = operators[value];
+    operatorHandler(value);
   } else if (value === "=") {
-    if (!VALUES.operatorSelected || VALUES.firstVal === null) return;
+    if (VALUES.operator === null) return;
+    if (VALUES.currentInput === null && VALUES.solution === null) return;
 
     if (
-      VALUES.firstVal !== null &&
-      VALUES.operatorSelected &&
-      VALUES.secondVal === null
+      VALUES.currentInput === null &&
+      VALUES.operator !== null &&
+      VALUES.solution !== null
     ) {
-      operate(VALUES.firstVal, VALUES.firstVal, VALUES.operator);
-    } else operate(VALUES.firstVal, VALUES.secondVal, VALUES.operator);
+      VALUES.currentInput = VALUES.solution;
+      operate(VALUES.solution, VALUES.currentInput, VALUES.operator);
+      VALUES = {
+        currentInput: VALUES.currentInput,
+        operator: VALUES.operator,
+        solution: VALUES.solution,
+      };
+    } else {
+      operate(VALUES.solution, VALUES.currentInput, VALUES.operator);
 
-    VALUES = {
-      firstVal: VALUES.solution,
-      secondVal: null,
-      operator: null,
-      operatorSelected: false,
-      solution: VALUES.solution,
-    };
+      // VALUES = {
+      //   currentInput: null,
+      //   operator: VALUES.operator,
+      //   solution: VALUES.solution,
+      // };
+    }
   } else if (value === "C") {
-    //
     VALUES = {
-      firstVal: null,
-      secondVal: null,
+      currentInput: null,
       operator: null,
-      operatorSelected: false,
       solution: null,
     };
   } else if (value === "DE") {
-    if (!VALUES.operatorSelected && VALUES.firstVal !== null)
-      VALUES.firstVal =
-        VALUES.firstVal.toString().indexOf(".") === -1
-          ? Math.floor(VALUES.firstVal / 10)
-          : parseFloat(VALUES.firstVal.toString().slice(0, -1));
-    else if (VALUES.operatorSelected && VALUES.secondVal !== null)
-      VALUES.secondVal =
-        VALUES.secondVal.toString().indexOf(".") === -1
-          ? Math.floor(VALUES.secondVal / 10)
-          : parseFloat(VALUES.secondVal.toString().slice(0, -1));
+    if (VALUES.currentInput === null) return;
+
+    VALUES.currentInput =
+      VALUES.currentInput.toString().indexOf(".") === -1
+        ? Math.floor(VALUES.currentInput / 10)
+        : parseFloat(VALUES.currentInput.toString().slice(0, -1));
   }
 
   console.log(VALUES);
-  updateDisplay();
 }
 
 // Keyboard support initial code

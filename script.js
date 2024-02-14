@@ -25,8 +25,8 @@ const buttons = document.querySelectorAll("button");
 const display = document.querySelector(".calculator__display");
 
 function operate(num1, num2, operator) {
-  const decimals = Math.max(num1.length, num2.length);
-  VALUES.solution = +operations[operator](+num1, +num2).toFixed(decimals);
+  const decimals = Math.max(num1.toString().length, num2.toString().length);
+  VALUES.solution = +operations[operator](num1, num2).toFixed(decimals);
   display.value = VALUES.solution;
 }
 
@@ -54,8 +54,20 @@ function logicHandler(value) {
       VALUES.secondVal = +(
         (VALUES.secondVal === null ? "" : VALUES.secondVal) + value
       );
+  } else if (value === ".") {
+    if (
+      VALUES.firstVal !== null &&
+      !VALUES.operatorSelected &&
+      VALUES.firstVal.toString().indexOf(".") === -1
+    ) {
+      VALUES.firstVal += ".";
+    } else if (
+      VALUES.firstVal !== null &&
+      VALUES.operatorSelected &&
+      VALUES.secondVal.toString().indexOf(".") === -1
+    )
+      VALUES.secondVal += ".";
   } else if (/[+-/*]/.test(value)) {
-    //
     VALUES.operatorSelected = true;
     VALUES.operator = operators[value];
   } else if (value === "=") {
@@ -86,13 +98,19 @@ function logicHandler(value) {
       solution: null,
     };
   } else if (value === "DE") {
-    //
     if (!VALUES.operatorSelected && VALUES.firstVal !== null)
-      VALUES.firstVal = Math.floor(VALUES.firstVal / 10);
+      VALUES.firstVal =
+        VALUES.firstVal.toString().indexOf(".") === -1
+          ? Math.floor(VALUES.firstVal / 10)
+          : parseFloat(VALUES.firstVal.toString().slice(0, -1));
     else if (VALUES.operatorSelected && VALUES.secondVal !== null)
-      VALUES.secondVal = Math.floor(VALUES.secondVal / 10);
+      VALUES.secondVal =
+        VALUES.secondVal.toString().indexOf(".") === -1
+          ? Math.floor(VALUES.secondVal / 10)
+          : parseFloat(VALUES.secondVal.toString().slice(0, -1));
   }
 
+  console.log(VALUES);
   updateDisplay();
 }
 

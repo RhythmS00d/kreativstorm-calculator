@@ -92,21 +92,20 @@ function logicHandler(value) {
     else if (VALUES.operatorSelected && VALUES.secondVal !== null)
       VALUES.secondVal = Math.floor(VALUES.secondVal / 10);
   }
-  
+
   updateDisplay();
 }
 
-// Keyboard support innitial code
+// Keyboard support initial code
 document.addEventListener("DOMContentLoaded", function () {
   const display = document.getElementById("display");
 
   document.addEventListener("keydown", handleKeyPress);
 
-
   function addToDisplay(value) {
     display.value += value;
   }
-  
+
   function handleKeyPress(event) {
     const key = event.key;
 
@@ -117,23 +116,23 @@ document.addEventListener("DOMContentLoaded", function () {
     } else if (key === "Escape") {
       clearDisplay();
     } else if (key == "Backspace") {
-            removeLastCharacter();
-      }
+      removeLastCharacter();
+    }
 
     function removeLastCharacter() {
-        const display = document.getElementById("display");
-        display.value = display.value.slice(0, -1);
+      const display = document.getElementById("display");
+      display.value = display.value.slice(0, -1);
     }
 
-
-  function evaluateExpression() {
-    try {
-      display.value = eval(display.value);
-    } catch (error) {
-      display.value = "Error";
+    function evaluateExpression() {
+      try {
+        display.value = eval(display.value);
+      } catch (error) {
+        display.value = "Error";
+      }
     }
-  }
-  function clearDisplay() {
-    display.value = "";
+    function clearDisplay() {
+      display.value = "";
+    }
   }
 });

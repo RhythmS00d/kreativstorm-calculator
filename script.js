@@ -3,15 +3,20 @@ const operations = {
   add: (num1, num2) => num1 + num2,
   subtract: (num1, num2) => num1 - num2,
   multiply: (num1, num2) => num1 * num2,
-  divide: (num1, num2) =>
-    num2 !== 0 ? num1 / num2 : "Error: Cannot divide by zero!",
+  divide: (num1, num2) => {
+    if (num2 !== 0) {
+      return num1 / num2;
+    } else {
+      throw new Error('Cannot divide by zero!');
+    }
+  },
 };
 
 const operators = {
-  "+": "add",
-  "-": "subtract",
-  "*": "multiply",
-  "/": "divide",
+  '+': 'add',
+  '-': 'subtract',
+  '*': 'multiply',
+  '/': 'divide',
 };
 
 let VALUES = {
@@ -21,19 +26,26 @@ let VALUES = {
   operatorSelected: false,
   solution: null,
 };
-const buttons = document.querySelectorAll("button");
-const display = document.querySelector(".calculator__display");
+const buttons = document.querySelectorAll('button');
+const display = document.querySelector('.calculator__display');
 
 function operate(num1, num2, operator) {
-  const decimals = Math.max(num1.toString().length, num2.toString().length);
-  VALUES.solution = +operations[operator](num1, num2).toFixed(decimals);
-  display.value = VALUES.solution;
+  try {
+    const decimals = Math.max(num1.toString().length, num2.toString().length);
+    VALUES.solution = +operations[operator](num1, num2).toFixed(decimals);
+    display.value = VALUES.solution;
+  } catch (error) {
+    setTimeout(() => {
+      display.value = error.message;
+      return;
+    }, 0);
+  }
 }
 
 // Calculation logic
 
 buttons.forEach((button) =>
-  button.addEventListener("click", (e) => handleClick(e.target.innerText))
+  button.addEventListener('click', (e) => handleClick(e.target.innerText))
 );
 
 function handleClick(value) {
@@ -41,41 +53,49 @@ function handleClick(value) {
 }
 
 function updateDisplay() {
-  display.value = !VALUES.operatorSelected ? VALUES.firstVal : VALUES.secondVal;
+  display.value = !VALUES.operatorSelected
+    ? VALUES.firstVal
+    : VALUES.secondVal || VALUES.firstVal;
 }
 
 function logicHandler(value) {
   if (/[0-9+]/.test(+value)) {
-    if (!VALUES.operatorSelected)
-      VALUES.firstVal = +(
-        (VALUES.firstVal === null ? "" : VALUES.firstVal) + value
-      );
+    if (!VALUES.operatorSelected) {
+      VALUES.firstVal =
+        VALUES.solution !== null
+          ? +value
+          : +((VALUES.firstVal === null ? '' : VALUES.firstVal) + value);
+      VALUES.solution = null;
+    }
+    // VALUES.firstVal = +(
+    //   (VALUES.firstVal === null ? "" : VALUES.firstVal) + value
+    // );
     else if (VALUES.operatorSelected)
       VALUES.secondVal = +(
-        (VALUES.secondVal === null ? "" : VALUES.secondVal) + value
+        (VALUES.secondVal === null ? '' : VALUES.secondVal) + value
       );
-  } else if (value === ".") {
+  } else if (value === '.') {
     if (
       VALUES.firstVal !== null &&
       !VALUES.operatorSelected &&
-      VALUES.firstVal.toString().indexOf(".") === -1
+      VALUES.firstVal.toString().indexOf('.') === -1
     ) {
-      VALUES.firstVal += ".";
+      VALUES.firstVal += '.';
     } else if (
       VALUES.firstVal !== null &&
       VALUES.operatorSelected &&
-      VALUES.secondVal.toString().indexOf(".") === -1
+      VALUES.secondVal.toString().indexOf('.') === -1
     )
-      VALUES.secondVal += ".";
+      VALUES.secondVal += '.';
   } else if (/[+-/*]/.test(value)) {
     VALUES.operatorSelected = true;
     VALUES.operator = operators[value];
-  } else if (value === "=") {
+  } else if (value === '=') {
     if (!VALUES.operatorSelected || VALUES.firstVal === null) return;
 
     if (
-      VALUES.firstVal !== null &&
-      VALUES.operatorSelected &&
+      // VALUES.firstVal !== null &&
+      // VALUES.operatorSelected &&
       VALUES.secondVal === null
     ) {
       operate(VALUES.firstVal, VALUES.firstVal, VALUES.operator);
@@ -88,7 +108,7 @@ function logicHandler(value) {
       operatorSelected: false,
       solution: VALUES.solution,
     };
-  } else if (value === "C") {
+  } else if (value === 'C') {
     //
     VALUES = {
       firstVal: null,
@@ -97,15 +117,15 @@ function logicHandler(value) {
       operatorSelected: false,
       solution: null,
     };
-  } else if (value === "DE") {
+  } else if (value === 'DE') {
     if (!VALUES.operatorSelected && VALUES.firstVal !== null)
       VALUES.firstVal =
-        VALUES.firstVal.toString().indexOf(".") === -1
+        VALUES.firstVal.toString().indexOf('.') === -1
           ? Math.floor(VALUES.firstVal / 10)
           : parseFloat(VALUES.firstVal.toString().slice(0, -1));
     else if (VALUES.operatorSelected && VALUES.secondVal !== null)
       VALUES.secondVal =
-        VALUES.secondVal.toString().indexOf(".") === -1
+        VALUES.secondVal.toString().indexOf('.') === -1
           ? Math.floor(VALUES.secondVal / 10)
           : parseFloat(VALUES.secondVal.toString().slice(0, -1));
   }
@@ -115,10 +135,10 @@ function logicHandler(value) {
 }
 
 // Keyboard support initial code
-document.addEventListener("DOMContentLoaded", function () {
-  const display = document.getElementById("display");
+document.addEventListener('DOMContentLoaded', function () {
+  const display = document.getElementById('display');
 
-  document.addEventListener("keydown", handleKeyPress);
+  document.addEventListener('keydown', handleKeyPress);
 
   function addToDisplay(value) {
     display.value += value;
@@ -129,16 +149,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (/[0-9+\-*/=]/.test(key)) {
       addToDisplay(key);
-    } else if (key === "Enter") {
+    } else if (key === 'Enter') {
       evaluateExpression();
-    } else if (key === "Escape") {
+    } else if (key === 'Escape') {
       clearDisplay();
-    } else if (key == "Backspace") {
+    } else if (key == 'Backspace') {
       removeLastCharacter();
     }
 
     function removeLastCharacter() {
-      const display = document.getElementById("display");
+      const display = document.getElementById('display');
       display.value = display.value.slice(0, -1);
     }
 
@@ -146,11 +166,11 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         display.value = eval(display.value);
       } catch (error) {
-        display.value = "Error";
+        display.value = 'Error';
       }
     }
     function clearDisplay() {
-      display.value = "";
+      display.value = '';
     }
   }
 });

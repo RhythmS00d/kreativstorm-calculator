@@ -102,11 +102,11 @@ function logicHandler(value) {
     } else {
       operate(VALUES.solution, VALUES.currentInput, VALUES.operator);
 
-      // VALUES = {
-      //   currentInput: null,
-      //   operator: VALUES.operator,
-      //   solution: VALUES.solution,
-      // };
+      VALUES = {
+        currentInput: null,
+        operator: VALUES.operator,
+        solution: VALUES.solution,
+      };
     }
   } else if (value === "C") {
     VALUES = {

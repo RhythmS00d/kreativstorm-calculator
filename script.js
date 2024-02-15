@@ -3,15 +3,20 @@ const operations = {
   add: (num1, num2) => num1 + num2,
   subtract: (num1, num2) => num1 - num2,
   multiply: (num1, num2) => num1 * num2,
-  divide: (num1, num2) =>
-    num2 !== 0 ? num1 / num2 : "Error: Cannot divide by zero!",
+  divide: (num1, num2) => {
+    if (num2 !== 0) {
+      return num1 / num2;
+    } else {
+      throw new Error('Cannot divide by zero!');
+    }
+  },
 };
 
 const operators = {
-  "+": "add",
-  "-": "subtract",
-  "*": "multiply",
-  "/": "divide",
+  '+': 'add',
+  '-': 'subtract',
+  '*': 'multiply',
+  '/': 'divide',
 };
 
 let VALUES = {
@@ -19,25 +24,32 @@ let VALUES = {
   operator: null,
   solution: null,
 };
-const buttons = document.querySelectorAll("button");
-const display = document.querySelector(".calculator__display");
+const buttons = document.querySelectorAll('button');
+const display = document.querySelector('.calculator__display');
 
 function operate(num1, num2, operator) {
-  const decimals = Math.max(num1.toString().length, num2.toString().length);
-  VALUES.solution = +operations[operator](num1, num2).toFixed(decimals);
-  display.value = VALUES.solution;
+  try {
+    const decimals = Math.max(num1.toString().length, num2.toString().length);
+    VALUES.solution = +operations[operator](num1, num2).toFixed(decimals);
+    display.value = VALUES.solution;
+  } catch (error) {
+    setTimeout(() => {
+      display.value = error.message;
+      return;
+    }, 0);
+  }
 }
 
 // Calculation logic
 
 buttons.forEach((button) =>
-  button.addEventListener("click", (e) => handleClick(e.target.innerText))
+  button.addEventListener('click', (e) => handleClick(e.target.innerText))
 );
 
 function handleClick(value) {
   logicHandler(value);
 
-  if (value === "=") updateDisplay(VALUES.solution);
+  if (value === '=') updateDisplay(VALUES.solution);
   else if (VALUES.solution !== null && VALUES.currentInput === null)
     updateDisplay(VALUES.solution);
   else updateDisplay(VALUES.currentInput);
@@ -72,18 +84,18 @@ function operatorHandler(value) {
 function logicHandler(value) {
   if (/[0-9+]/.test(+value)) {
     VALUES.currentInput = +(
-      (VALUES.currentInput === null ? "" : VALUES.currentInput) + value
+      (VALUES.currentInput === null ? '' : VALUES.currentInput) + value
     );
-  } else if (value === ".") {
+  } else if (value === '.') {
     if (
       VALUES.currentInput !== null &&
-      VALUES.currentInput.toString().indexOf(".") === -1
+      VALUES.currentInput.toString().indexOf('.') === -1
     ) {
-      VALUES.currentInput += ".";
+      VALUES.currentInput += '.';
     }
   } else if (/[+-/*]/.test(value)) {
     operatorHandler(value);
-  } else if (value === "=") {
+  } else if (value === '=') {
     if (VALUES.operator === null) return;
     if (VALUES.currentInput === null && VALUES.solution === null) return;
 
@@ -108,17 +120,17 @@ function logicHandler(value) {
         solution: VALUES.solution,
       };
     }
-  } else if (value === "C") {
+  } else if (value === 'C') {
     VALUES = {
       currentInput: null,
       operator: null,
       solution: null,
     };
-  } else if (value === "DE") {
+  } else if (value === 'DE') {
     if (VALUES.currentInput === null) return;
 
     VALUES.currentInput =
-      VALUES.currentInput.toString().indexOf(".") === -1
+      VALUES.currentInput.toString().indexOf('.') === -1
         ? Math.floor(VALUES.currentInput / 10)
         : parseFloat(VALUES.currentInput.toString().slice(0, -1));
   }
@@ -127,10 +139,10 @@ function logicHandler(value) {
 }
 
 // Keyboard support initial code
-document.addEventListener("DOMContentLoaded", function () {
-  const display = document.getElementById("display");
+document.addEventListener('DOMContentLoaded', function () {
+  const display = document.getElementById('display');
 
-  document.addEventListener("keydown", handleKeyPress);
+  document.addEventListener('keydown', handleKeyPress);
 
   function addToDisplay(value) {
     display.value += value;
@@ -141,16 +153,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (/[0-9+\-*/=]/.test(key)) {
       addToDisplay(key);
-    } else if (key === "Enter") {
+    } else if (key === 'Enter') {
       evaluateExpression();
-    } else if (key === "Escape") {
+    } else if (key === 'Escape') {
       clearDisplay();
-    } else if (key == "Backspace") {
+    } else if (key == 'Backspace') {
       removeLastCharacter();
     }
 
     function removeLastCharacter() {
-      const display = document.getElementById("display");
+      const display = document.getElementById('display');
       display.value = display.value.slice(0, -1);
     }
 
@@ -158,11 +170,11 @@ document.addEventListener("DOMContentLoaded", function () {
       try {
         display.value = eval(display.value);
       } catch (error) {
-        display.value = "Error";
+        display.value = 'Error';
       }
     }
     function clearDisplay() {
-      display.value = "";
+      display.value = '';
     }
   }
 });

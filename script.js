@@ -138,7 +138,7 @@ function logicHandler(value) {
   console.log(VALUES);
 }
 
-// Keyboard support initial code
+// Keyboard support
 document.addEventListener('DOMContentLoaded', function () {
   const display = document.getElementById('display');
 
@@ -150,8 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function handleKeyPress(event) {
     const key = event.key;
-
-    if (/[0-9+\-*/=]/.test(key)) {
+    if (/[0-9+\-*/=.]/.test(key)) {
       addToDisplay(key);
     } else if (key === 'Enter') {
       evaluateExpression();
@@ -160,19 +159,31 @@ document.addEventListener('DOMContentLoaded', function () {
     } else if (key == 'Backspace') {
       removeLastCharacter();
     }
-
+    
     function removeLastCharacter() {
-      const display = document.getElementById('display');
       display.value = display.value.slice(0, -1);
     }
 
     function evaluateExpression() {
-      try {
-        display.value = eval(display.value);
-      } catch (error) {
+      const expression = display.value;
+      const regex = /(\d+\.?\d*)? *([+\-*/]) *(\d+\.?\d*)/;
+      const match = expression.match(regex);
+    
+      if (match) {
+        const num1 = match[1] ? parseFloat(match[1]) : 0;
+        const operator = match[2];
+        const num2 = match[3] ? parseFloat(match[3]) : 0;
+    
+        try {
+          operate(num1, num2, operators[operator]);
+        } catch (error) {
+          display.value = 'Error';
+        }
+      } else {
         display.value = 'Error';
       }
     }
+    
     function clearDisplay() {
       display.value = '';
     }

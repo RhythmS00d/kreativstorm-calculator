@@ -9,85 +9,79 @@
   </head>
   <body>
     <main>
-      <div class="container">
-        <div class="calculator">
-          <section class="calculator__display-box">
-            <input
-              class="calculator__display"
-              type="text"
-              name="display"
-              id="display"
-              disabled
-              maxlength="12"
-            />
-          </section>
-          <section class="calculator__button-box">
-            <ul class="row calculator__row-1">
-              <button class="calculator__delete del" id="delete">DE</button>
-              <button class="calculator__cancel del" id="clear">C</button>
-              <button class="calculator__divide function" id="divide">/</button>
-            </ul>
-            <ul class="row calculator__row-2">
-              <li>
-                <button class="calculator__7 number">7</button>
-              </li>
-              <li>
-                <button class="calculator__8 number">8</button>
-              </li>
+      <section class="calculator__display-box">
+        <input
+          class="calculator__display"
+          type="text"
+          name="display"
+          id="display"
+          disabled
+          maxlength="12"
+        />
+      </section>
+      <section class="calculator__button-box">
+        <ul class="row calculator__row-1">
+          <li id="delete"><button class="calculator__delete del">DE</button></li>
+          <li><button class="calculator__cancel del" id="clear">C</button></li>
+          <li><button class="calculator__divide function" id="divide">/</button></li>
+        </ul>
+        <ul class="row calculator__row-2">
+          <li>
+            <button class="calculator__7 number">7</button>
+          </li>
+          <li>
+            <button class="calculator__8 number">8</button>
+          </li>
 
-              <li>
-                <button class="calculator__9 number">9</button>
-              </li>
-              <li>
-                <button class="calculator__multiply function" id="multiply">
-                  *
-                </button>
-              </li>
-            </ul>
-            <ul class="row calculator__row-3">
-              <li>
-                <button class="calculator__4 number">4</button>
-              </li>
-              <li>
-                <button class="calculator__5 number">5</button>
-              </li>
-              <li>
-                <button class="calculator__6 number">6</button>
-              </li>
-              <li>
-                <button class="calculator__minus function" id="subtract">
-                  -
-                </button>
-              </li>
-            </ul>
-            <ul class="row calculator__row-4">
-              <li>
-                <button class="calculator__1 number">1</button>
-              </li>
-              <li>
-                <button class="calculator__2 number">2</button>
-              </li>
-              <li>
-                <button class="calculator__3 number">3</button>
-              </li>
-              <li>
-                <button class="calculator__plus function" id="add">+</button>
-              </li>
-            </ul>
-            <ul class="row calculator__row-5">
-              <li>
-                <button class="calculator__0 number">0</button>
-              </li>
-              <li>
-                <button class="calculator__dot number">.</button>
-              </li>
-              <li>
-                <button class="calculator__equal function">=</button>
-              </li>
-            </ul>
-          </section>
-        </div>
-      </div>
+          <li>
+            <button class="calculator__9 number">9</button>
+          </li>
+          <li>
+            <button class="calculator__multiply function" id="multiply">
+              *
+            </button>
+          </li>
+        </ul>
+        <ul class="row calculator__row-3">
+          <li>
+            <button class="calculator__4 number">4</button>
+          </li>
+          <li>
+            <button class="calculator__5 number">5</button>
+          </li>
+          <li>
+            <button class="calculator__6 number">6</button>
+          </li>
+          <li>
+            <button class="calculator__minus function" id="subtract">-</button>
+          </li>
+        </ul>
+        <ul class="row calculator__row-4">
+          <li>
+            <button class="calculator__1 number">1</button>
+          </li>
+          <li>
+            <button class="calculator__2 number">2</button>
+          </li>
+          <li>
+            <button class="calculator__3 number">3</button>
+          </li>
+          <li>
+            <button class="calculator__plus function" id="add">+</button>
+          </li>
+        </ul>
+        <ul class="row calculator__row-5">
+          <li id="zero">
+            <button class="calculator__0 number">0</button>
+          </li>
+          <li>
+            <button class="calculator__dot number">.</button>
+          </li>
+          <li>
+            <button class="calculator__equal function">=</button>
+          </li>
+        </ul>
+      </section>
     </main>
   </body>
 </html>
